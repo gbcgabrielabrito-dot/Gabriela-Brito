@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Casa, Tu Mente | Arq. Gabriela Brito</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="light"] {
+            --bg-color: #F8F6F0;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2621;
+            --text-muted: #616B64;
+            --sage: #8A9E75;
+            --olive: #4A5D2C;
+            --olive-hover: #3B4B22;
+            --bronze: #9E703D;
+            --border-color: #E6E1D8;
+            --option-bg: #F2EFE9;
+            --shadow: 0 20px 50px rgba(74, 93, 44, 0.08);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #141816;
+            --card-bg: #1E2421;
+            --text-main: #F4F1EA;
+            --text-muted: #9BA19D;
+            --sage: #6B7D58;
+            --olive: #68823E;
+            --olive-hover: #789648;
+            --bronze: #C49A6C;
+            --border-color: #2D3631;
+            --option-bg: #252D28;
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Barra Superior Estilizada */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .brand-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-avatar-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--olive), var(--bronze));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(74, 93, 44, 0.2);
+            border: 2px solid var(--card-bg);
+            overflow: hidden;
+        }
+
+        .brand-avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .brand-info span {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 10px 24px 150px 24px;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        header {
+            text-align: center;
+            padding: 0 0 16px 0;
+        }
+
+        .brand-subtitle {
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--bronze);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Pantalla de Selección de Enfoque (Tarjetas Premium) */
+        .choice-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .greeting-box {
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .greeting-box h1 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .greeting-box p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .path-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .path-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--olive);
+            box-shadow: var(--shadow);
+        }
+
+        .path-img-container {
+            position: relative;
+            width: 100%;
+            height: 140px;
+        }
+
+        .path-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .path-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .path-content {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .path-icon {
+            font-size: 1.6rem;
+            background: var(--option-bg);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .path-text h3 {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .path-text p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Pantalla Bienvenida del Camino */
+        .welcome-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            height: 210px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-badge {
+            position: absolute;
+            bottom: 14px;
+            left: 16px;
+            background: rgba(31, 38, 33, 0.85);
+            backdrop-filter: blur(6px);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .welcome-content {
+            padding: 24px 22px;
+        }
+
+        .welcome-card h1 {
+            font-size: 1.35rem;
+            line-height: 1.4;
+            color: var(--text-main);
+            margin-bottom: 22px;
+            font-weight: 400;
+        }
+
+        .welcome-card h1 span {
+            color: var(--olive);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: var(--olive);
+            color: #FFFFFF;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 8px 22px rgba(74, 93, 44, 0.25);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary:hover { 
+            background-color: var(--olive-hover); 
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--sage);
+            width: 100%;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--olive);
+        }
+
+        /* Preguntas Inmersivas */
+        .question-card {
+            background: var(--card-bg);
+            padding: 26px 22px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .question-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .subtle-back-btn {
+            background: var(--option-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .subtle-back-btn:hover { color: var(--olive); border-color: var(--olive); }
+
+        .progress-indicator {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--bronze);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .question-title {
+            font-size: 1.25rem;
+            margin-bottom: 22px;
+            color: var(--text-main);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .option-card-item {
+            background: var(--option-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 18px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.25s;
+        }
+
+        .option-card-item:hover {
+            border-color: var(--olive);
+            transform: translateY(-2px);
+            background: rgba(138, 158, 117, 0.1);
+        }
+
+        .option-symbol {
+            font-size: 1.5rem;
+            background: var(--card-bg);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .option-text-group h4 {
+            font-size: 0.98rem;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .option-text-group p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Resultados */
+        .result-box {
+            background: var(--card-bg);
+            padding: 22px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .result-box h3 {
+            color: var(--bronze);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            margin-bottom: 8px;
+        }
+
+        .result-box p {
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        /* Pie de página con Enlaces Dinámicos */
+        .footer-cta-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, var(--bg-color) 85%, transparent);
+            padding: 12px 20px 20px 20px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .social-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: transform 0.25s, border-color 0.25s, color 0.25s;
+        }
+
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .social-btn:hover { 
+            transform: scale(1.15); 
+            border-color: var(--olive); 
+            color: var(--olive); 
+        }
+
+        .asesoria-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            width: 100%;
+            max-width: 440px;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            text-decoration: none;
+            margin: 0 auto;
+            transition: transform 0.2s;
+        }
+
+        .asesoria-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .asesoria-btn span.price {
+            font-size: 0.72rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra Superior -->
+    <div class="top-bar">
+        <div class="brand-profile">
+            <div class="brand-avatar-box">
+                <!-- Inicial elegante por defecto y la opción de tu foto con respaldo seguro -->
+                <span id="avatar-initial">GB</span>
+            </div>
+            <div class="brand-info">
+                <h4>Gabriela Brito</h4>
+                <span>Arquitectura & Mente</span>
+            </div>
+        </div>
+        <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Cambiar modo claro u oscuro">
+            🌙
+        </button>
+    </div>
+
+    <header>
+        <div class="brand-subtitle" id="brand-subtitle-text">ENTORNO · INSPIRACIÓN · ACCIÓN</div>
+        <div class="brand-title">TU CASA, TU MENTE</div>
+    </header>
+
+    <div class="container">
+        <!-- Pantalla 0: Saludo y Selección Inicial con Diseño Editorial -->
+        <div id="screen-focus" class="screen active">
+            <div class="choice-wrapper">
+                <div class="greeting-box">
+                    <h1>Hola. Qué alegría tenerte aquí.</h1>
+                    <p>¿Cómo deseas empezar tu transformación hoy?</p>
+                </div>
+
+                <!-- Opción 1: Inspiración & Motivación -->
+                <div class="path-card" onclick="selectFocus('inspira')">
+                    <div class="path-img-container">
+                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=500&auto=format&fit=crop" alt="Inspiración y Motivación" class="path-img">
+                        <div class="path-img-overlay"></div>
+                    </div>
+                    <div class="path-content">
+                        <div class="path-icon">✨</div>
+                        <div class="path-text">
+                            <h3>Inspiración & Motivación</h3>
+                            <p>Entorno mental · Ideas y frases que transforman tu visión diaria.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opción 2: Transformar tu Espacio -->
+                <div class="path-card" onclick="selectFocus('arq')">
+                    <div class="path-img-container">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=500&auto=format&fit=crop" alt="Transformar tu Espacio" class="path-img">
+                        <div class="path-img-overlay"></div>
+                    </div>
+                    <div class="path-content">
+                        <div class="path-icon">🏡</div>
+                        <div class="path-text">
+                            <h3>Transformar tu Espacio</h3>
+                            <p>Espacio físico y hogar · Neuroarquitectura para actuar distinto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla 1: Inicio del Camino Elegido -->
+        <div id="screen-welcome" class="screen">
+            <div class="welcome-card">
+                <div class="hero-image-container">
+                    <img src="" alt="Diseño Inspiracional" class="hero-image" id="hero-img">
+                    <div class="hero-badge" id="hero-badge-text">Transformación consciente</div>
+                </div>
+                <div class="welcome-content">
+                    <h1 id="welcome-heading">«¿Y si tu entorno estuviera influyendo en cómo te sientes sin que lo hayas notado?»</h1>
+                    <button class="btn-primary" onclick="startJourney()">QUIERO DESCUBRIRLO ✨</button>
+                    <button class="btn-secondary" onclick="resetFocus()">← Elegir otro camino</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla 2: Preguntas Dinámicas -->
+        <div id="screen-question" class="screen">
+            <div class="question-card">
+                <div class="question-top-row">
+                    <button class="subtle-back-btn" onclick="prevQuestion()" title="Volver al paso anterior">
+                        🏠
+                    </button>
+                    <div class="progress-indicator" id="progress-indicator">Paso 1 de 4</div>
+                </div>
+                <h2 id="q-title" class="question-title">Pregunta</h2>
+                <div id="q-options" class="options-grid"></div>
+            </div>
+        </div>
+
+        <!-- Pantalla 3: Resultados y Neuroacción -->
+        <div id="screen-result" class="screen">
+            <h2 class="serif-font" style="margin-bottom: 16px; text-align: center;">Tu Descubrimiento</h2>
+            
+            <div class="result-box">
+                <h3>🔍 Sobre tu experiencia</h3>
+                <p id="res-discovery">Analizando respuestas...</p>
+            </div>
+
+            <div class="result-box">
+                <h3>🧠 Enfoque Profesional</h3>
+                <p id="res-principle">El entorno y los pensamientos conscientes se conectan directamente para transformar tu bienestar diario.</p>
+            </div>
+
+            <div class="result-box" style="border-left: 4px solid var(--olive);">
+                <h3>🌿 Tu Acción Consciente (5 min)</h3>
+                <p id="res-action">Tómate cinco minutos hoy para conectar con tu propósito y espacio.</p>
+            </div>
+
+            <button class="btn-secondary" onclick="restartJourney()">🔄 Explorar de nuevo</button>
+            <div style="height: 10px;"></div>
+        </div>
+    </div>
+
+    <!-- Pie de página con Enlaces Dinámicos y Asesoría -->
+    <div class="footer-cta-container">
+        <div class="social-links" id="social-links-container">
+            <!-- Se cargan dinámicamente -->
+        </div>
+        <a href="https://wa.me/59999999999?text=Hola%20Gabriela,%20deseo%20solicitar%20una%20asesor%C3%ADa%20personalizada%20($60%20-%201%20hora)." class="asesoria-btn" target="_blank">
+            💬 Solicita Asesoría Personalizada
+            <span class="price">Inversión: $60 · Duración: 1 hora</span>
+        </a>
+    </div>
+
+    <script>
+        const socialLinksConfig = {
+            inspira: {
+                fb: "https://www.facebook.com/profile.php?id=61591506075350",
+                ig: "https://www.instagram.com/gabrielabrito.inspira/",
+                yt: "https://www.youtube.com/@GabrielaBrito.inspira",
+                tk: "https://www.tiktok.com/@gabrielabrito.inspira"
+            },
+            arq: {
+                fb: "https://www.facebook.com/arqgabrielabrito/",
+                ig: "https://www.instagram.com/arq.gabrielabrito/",
+                yt: "https://www.youtube.com/@gabrielabritoarq/shorts",
+                tk: "https://www.tiktok.com/@gabrielabrito.arq1"
+            }
+        };
+
+        let currentFocus = 'inspira';
+
+        function selectFocus(focusType) {
+            currentFocus = focusType;
+            updateSocialIcons();
+            
+            if(focusType === 'inspira') {
+                document.getElementById('brand-subtitle-text').textContent = "ENTORNO · INSPIRACIÓN · ACCIÓN";
+                document.getElementById('welcome-heading').innerHTML = "«¿Y si las ideas y referentes que te rodean estuvieran moldeando tu mentalidad sin que lo hayas notado?»";
+                document.getElementById('hero-badge-text').textContent = "Gabriela Brito Inspira";
+                document.getElementById('hero-img').src = "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop";
+            } else {
+                document.getElementById('brand-subtitle-text').textContent = "ESPACIO · INSPIRACIÓN · ACCIÓN";
+                document.getElementById('welcome-heading').innerHTML = "«¿Y si el lugar donde pasas más tiempo estuviera influyendo en cómo te sientes y actúas?»";
+                document.getElementById('hero-badge-text').textContent = "Arq. Gabriela Brito · Neuroarquitectura";
+                document.getElementById('hero-img').src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop";
+            }
+
+            switchScreen('screen-welcome');
+        }
+
+        function resetFocus() {
+            switchScreen('screen-focus');
+        }
+
+        function updateSocialIcons() {
+            const links = socialLinksConfig[currentFocus];
+            const container = document.getElementById('social-links-container');
+            container.innerHTML = `
+                <a href="${links.fb}" class="social-btn" target="_blank" title="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="${links.ig}" class="social-btn" target="_blank" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="${links.yt}" class="social-btn" target="_blank" title="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="${links.tk}" class="social-btn" target="_blank" title="TikTok">
+                    <svg viewBox="0 0 24 24"><path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.242V2h-3.445v13.672a2.896 2.896 0 0 1-5.01 1.953 2.892 2.892 0 0 1 1.255-4.885V9.308a6.334 6.334 0 0 0-5.836 6.326 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.325a8.13 8.13 0 0 0 4.78 1.547V7.452a4.792 4.792 0 0 1-2.658-.766z"/></svg>
+                </a>
+            `;
+        }
+
+        const questions = [
+            {
+                title: "¿Dónde transcurre la mayor parte de tu energía diaria?",
+                options: [
+                    { text: "Casa", desc: "Tu refugio y espacio íntimo", symbol: "🏡" },
+                    { text: "Espacio de trabajo", desc: "Tu zona de enfoque y proyectos", symbol: "💻" }
+                ]
+            },
+            {
+                title: "¿Qué rincón deseas redescubrir hoy?",
+                options: [
+                    { text: "Recámara / Descanso", desc: "Calma y desconexión nocturna", symbol: "🛏️" },
+                    { text: "Oficina / Estudio", desc: "Claridad mental y productividad", symbol: "📐" },
+                    { text: "Sala / Estar principal", desc: "Convivencia y armonía visual", symbol: "🛋️" }
+                ]
+            },
+            {
+                title: "¿Qué emoción predomina al entrar allí?",
+                options: [
+                    { text: "Calma y seguridad", desc: "Te recargas al instante", symbol: "🌿" },
+                    { text: "Cansancio o pesadez", desc: "Sientes fatiga visual o mental", symbol: "⚡" },
+                    { text: "Estrés / Saturación", desc: "Exceso de estímulos a la vista", symbol: "🌪️" }
+                ]
+            },
+            {
+                title: "Si pudieras transformar una sensación, ¿cuál elegirías?",
+                options: [
+                    { text: "Tranquilidad profunda", desc: "Paz mental al habitarlo", symbol: "🌙" },
+                    { text: "Claridad y foco", desc: "Menos distracciones, más energía", symbol: "🚀" },
+                    { text: "Inspiración pura", desc: "Creatividad y fluidez diaria", symbol: "✨" }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('theme-btn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeBtn.textContent = '🌙';
+            }
+        }
+
+        function startJourney() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            switchScreen('screen-question');
+            loadQuestion();
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('q-title').textContent = q.title;
+            document.getElementById('progress-indicator').textContent = `Paso ${currentQuestionIndex + 1} de ${questions.length}`;
+
+            const optionsContainer = document.getElementById('q-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt) => {
+                const item = document.createElement('div');
+                item.className = 'option-card-item';
+                item.innerHTML = `
+                    <div class="option-symbol">${opt.symbol}</div>
+                    <div class="option-text-group">
+                        <h4>${opt.text}</h4>
+                        <p>${opt.desc}</p>
+                    </div>
+                `;
+                item.onclick = () => selectAndNext(opt.text);
+                optionsContainer.appendChild(item);
+            });
+        }
+
+        function selectAndNext(text) {
+            userAnswers[currentQuestionIndex] = text;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            } else {
+                switchScreen('screen-focus');
+            }
+        }
+
+        function showResults() {
+            switchScreen('screen-result');
+            
+            const space = userAnswers[1] || userAnswers[0] || "tu espacio";
+            
+            document.getElementById('res-discovery').textContent = 
+                `Elegiste enfocar tu atención en ${space.toLowerCase()}. Percibimos cómo tu entorno y tu mentalidad se sincronizan para modular tu descanso y tus niveles de energía diaria.`;
+            
+            document.getElementById('res-action').innerHTML = 
+                `<strong>Acción Consciente (5 min):</strong> Tómate cinco minutos hoy para ajustar este espacio y conectar con tu bienestar.`;
+        }
+
+        function restartJourney() {
+            switchScreen('screen-focus');
+        }
+
+        updateSocialIcons();
+    </script>
+</body>
+</html>
